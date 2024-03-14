@@ -3,6 +3,8 @@ import { useState } from "react";
 function HogForm({ allHogs, hogFormCallback }) {
   // Color for name field - changes if name is not valid/not unquie
   const [nameColor, setNameColor] = useState("black");
+
+  //Get array of all names from allHogs array
   const allNames = allHogs.map((hog) => {
     return hog.name.toLowerCase();
   });
@@ -14,17 +16,19 @@ function HogForm({ allHogs, hogFormCallback }) {
         // Check all values are submitted entirely
         e.target.name.value !== "" &&
         e.target.specialty.value !== "" &&
-        e.target.weight.value !== "" &&
         e.target.greased.value !== "" &&
-        e.target.medal.value !== ""
+        e.target.weight.value !== "" &&
+        e.target.medal.value !== "" &&
+        e.target.image.value !== ""
       ) {
         const newHog = {
           // Create new hog object using values to send to callback
           name: e.target.name.value,
           specialty: e.target.specialty.value,
-          weight: parseFloat(e.target.weight.value),
           greased: Boolean(e.target.greased.value),
+          weight: parseFloat(e.target.weight.value),
           "highest medal achieved": e.target.medal.value,
+          image: e.target.image.value,
         };
         hogFormCallback(newHog);
       } else {
@@ -50,19 +54,19 @@ function HogForm({ allHogs, hogFormCallback }) {
       onSubmit={(e) => formSubmitted(e)}
     >
       <label>
-        Name:
         <input
           type="text"
           name="name"
+          placeholder="Enter hog name"
           style={{ color: nameColor }}
           onChange={handleNameChange}
         />
         <br></br>
-        Specialty:
-        <input type="text" name="specialty" />
+        <input type="text" name="specialty" placeholder="Enter hog specialty" />
         <br></br>
-        Weight:
-        <input type="number" name="weight" />
+        <input type="number" name="weight" placeholder="Enter hog weight" />
+        <br></br>
+        <input type="text" name="image" placeholder="Enter image URL" />
         <br></br>
         Greased?
         <select name="greased">
@@ -85,24 +89,4 @@ function HogForm({ allHogs, hogFormCallback }) {
   );
 }
 
-//On submit, call hogFormCallback(newHog)
 export default HogForm;
-
-// Hog template
-//  {
-//  name: "Babe",
-//    specialty: "Being incredibly cute",
-//    greased: false,
-//    weight: 2.0,
-//    "highest medal achieved": "bronze",
-//    image:
-//  "https://raw.githubusercontent.com/learn-co-curriculum/react-hooks-hogwild/master/public/images/babe.jpg",
-//  }
-
-//{
-//  "name": "asd",
-//    "specialty": "asda",
-//    "weight": "123",
-//    "greased": "true",
-//    "highest medal achieved": "gold"
-//}
