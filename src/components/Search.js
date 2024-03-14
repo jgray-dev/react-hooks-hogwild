@@ -2,25 +2,57 @@ import { useState } from "react";
 
 function Search({ allHogs, updateFilteredHogsCallback }) {
   const [searchNameColor, setSearchNameColor] = useState("black");
+  const allNames = allHogs.map((hog) => {
+    return hog.name;
+  });
+  const namesString = allNames.join("");
 
   function submitSearchForm(e) {
     e.preventDefault();
-    const nameSearch = e.target.namesearch.value;
-    const greased = e.target.greased.value;
-    const sort = e.target.sort.value;
-    console.log(nameSearch, greased, sort);
+    if (
+      namesString
+        .toLowerCase()
+        .includes(e.target.namesearch.value.toLowerCase())
+    ) {
+      const nameSearch = e.target.namesearch.value;
+      let searchedHogs = [...allHogs];
+      if (nameSearch !== "") {
+        searchedHogs = filterNames(nameSearch);
+      }
+      const greased = e.target.greased.value;
+      let greasedHogs = [...searchedHogs];
+      if (greased !== "") {
+        greasedHogs = filterGrease(greased, greasedHogs);
+      }
+      if (greasedHogs.length === 0) {
+        alert("No hogs found matching that filter!");
+      } else {
+        updateFilteredHogsCallback(greasedHogs);
+      }
+    } else {
+      alert("No hogs found with that name");
+    }
   }
 
-  const allNames = allHogs.map((hog) => {
-    return hog.name.toLowerCase();
-  });
-  const namesString = allNames.join("");
+  function filterGrease(bool, hogs) {
+    return hogs.filter((hog) => {
+      return `${hog.greased}` === `${bool}`;
+    });
+  }
+
+  function filterNames(search) {
+    return allHogs.filter((hog) => {
+      return hog.name.toLowerCase().includes(search.toLowerCase());
+    });
+  }
 
   // Automatically change search color to green if a search will return a valid pig
   // Default to black for other searches
   function handleNameSearch(e) {
     setSearchNameColor(
-      namesString.includes(e.target.value.toLowerCase()) ? "#29b802" : "black",
+      namesString.toLowerCase().includes(e.target.value.toLowerCase())
+        ? "#29b802"
+        : "black",
     );
   }
 
@@ -43,13 +75,6 @@ function Search({ allHogs, updateFilteredHogsCallback }) {
           <option value="">Default (both)</option>
           <option value="true">Only greased</option>
           <option value="false">Only ungreased</option>
-        </select>
-        <br></br>
-        Sort by:
-        <select name="sort">
-          <option value="">Default</option>
-          <option value="weight">Weight</option>
-          <option value="medal">Highest medal achieved</option>
         </select>
         <br></br>
         <input type="submit" value="Submit search" />

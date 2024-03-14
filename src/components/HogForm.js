@@ -77,6 +77,7 @@ function HogForm({ allHogs, hogFormCallback }) {
         Highest medal achieved?
         <select name="medal">
           <option value="none">None</option>
+          <option value="platinum">Platinum</option>
           <option value="gold">Gold</option>
           <option value="silver">Silver</option>
           <option value="bronze">Bronze</option>
