@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Nav from "./Nav";
 import HogForm from "./HogForm";
+import HogList from "./HogList";
 
 import hogs from "../porkers_data";
 
@@ -18,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <Nav />
-      {/*Hog list here*/}
+      <HogList allHogs={allHogs} />
       <HogForm allHogs={allHogs} hogFormCallback={hogFormCallback} />
     </div>
   );

@@ -150,3 +150,26 @@ ul {
     transform: rotate(360deg);
   }
 }
+
+
+.hog-card img {
+  width: 200px;
+}
+
+.hog-card {
+  font-weight: bold;
+  font-size: 25px;
+  border-style: solid;
+  border-width: 5px;
+  padding: 15px;
+  margin: 10px;
+}
+
+#hog-container {
+  padding: 20px;
+
+}
+
+.search {
+  margin: 20px;
+}
